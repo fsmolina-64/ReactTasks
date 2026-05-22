@@ -1,0 +1,31 @@
+.ant-menu-horizontal {
+  background-color: var(--surface) !important;
+  border-bottom: 1px solid var(--border) !important;
+  line-height: 64px;
+  padding: 0 24px;
+}
+
+.ant-menu-horizontal .ant-menu-item {
+  color: var(--text-muted) !important;
+  font-weight: 500;
+}
+
+.ant-menu-horizontal .ant-menu-item a {
+  color: inherit !important;
+}
+
+.ant-menu-horizontal .ant-menu-item-selected,
+.ant-menu-horizontal .ant-menu-item:hover {
+  color: var(--accent) !important;
+}
+
+.ant-menu-horizontal .ant-menu-item-selected::after,
+.ant-menu-horizontal .ant-menu-item:hover::after {
+  border-bottom-color: var(--accent) !important;
+  border-bottom-width: 3px !important;
+}
+
+.ant-menu-item .anticon {
+  font-size: 16px;
+  vertical-align: middle;
+}
