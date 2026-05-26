@@ -24,15 +24,7 @@ const items: MenuItem[] = [
     key: 'statistics',
     icon: <AppstoreOutlined />,
   },
-  {
-    key: 'alipay',
-    label: (
-      <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
-        Navigation Four - Link
-      </a>
-      
-    ),
-  },
+
 ];
 
 const App: React.FC = () => {
