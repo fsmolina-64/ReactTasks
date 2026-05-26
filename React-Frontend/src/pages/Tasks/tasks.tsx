@@ -6,6 +6,19 @@ import type { Task } from "../../types/Task";
 
 import TaskForm from "../../Components/TaskForm/TaskForm";
 
+import {
+  Card,
+  Button,
+  Tag,
+  Space,
+  Typography,
+  Row,
+  Col,
+  Statistic,
+} from "antd";
+
+const { Title, Text } = Typography;
+
 function Tasks() {
 
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -50,77 +63,147 @@ function Tasks() {
     }
 
   };
+
   const completeTask = async (id: number) => {
 
-  try {
+    try {
 
-    await axios.patch(`http://localhost:3000/task/${id}`, {
-      completed: true,
-    });
+      await axios.patch(`http://localhost:3000/task/${id}`, {
+        completed: true,
+      });
 
-    getTasks();
+      getTasks();
 
-  } catch (error) {
+    } catch (error) {
 
-    console.log(error);
+      console.log(error);
 
-  }
+    }
 
-};
-const deleteTask = async (id: number) => {
+  };
 
-  try {
+  const deleteTask = async (id: number) => {
 
-    await axios.delete(`http://localhost:3000/task/${id}`);
+    try {
 
-    getTasks();
+      await axios.delete(`http://localhost:3000/task/${id}`);
 
-  } catch (error) {
+      getTasks();
 
-    console.log(error);
+    } catch (error) {
 
-  }
+      console.log(error);
 
-};
+    }
+
+  };
+
+  const completedTasks = tasks.filter(task => task.completed).length;
+
+  const pendingTasks = tasks.filter(task => !task.completed).length;
 
   return (
-    <div>
 
-      <h1>Tareas</h1>
+    <div style={{ padding: "30px" }}>
+
+      <Title>Tareas</Title>
 
       <TaskForm addTask={addTask} />
 
-{
-  tasks.map((task) => (
+      <Row gutter={16} style={{ marginTop: 20, marginBottom: 30 }}>
 
-    <div key={task.id}>
+        <Col span={8}>
+          <Card>
+            <Statistic title="Total" value={tasks.length} />
+          </Card>
+        </Col>
 
-      <h3>
-        {task.completed ? "✔ " : ""}
-        {task.title}
-      </h3>
+        <Col span={8}>
+          <Card>
+            <Statistic title="Completadas" value={completedTasks} />
+          </Card>
+        </Col>
 
-      <p>{task.priority}</p>
+        <Col span={8}>
+          <Card>
+            <Statistic title="Pendientes" value={pendingTasks} />
+          </Card>
+        </Col>
 
-      <p>
-        {task.completed ? "Completada" : "Pendiente"}
-      </p>
+      </Row>
 
-      <button onClick={() => completeTask(task.id)}>
-        Completar
-      </button>
+      <Space
+        direction="vertical"
+        size="large"
+        style={{ width: "100%" }}
+      >
 
-      <button onClick={() => deleteTask(task.id)}>
-        Eliminar
-      </button>
+        {
+          tasks.map((task) => (
+
+            <Card key={task.id}>
+
+              <Space
+                direction="vertical"
+                style={{ width: "100%" }}
+              >
+
+                <Title level={4}>
+
+                  {task.completed ? "✔ " : ""}
+
+                  {task.title}
+
+                </Title>
+
+                <Tag
+                  color={
+                    task.priority === "Alta"
+                      ? "red"
+                      : task.priority === "Media"
+                      ? "orange"
+                      : "green"
+                  }
+                >
+                  {task.priority}
+                </Tag>
+
+                <Text>
+                  {task.completed ? "Completada" : "Pendiente"}
+                </Text>
+
+                <Space>
+
+                  <Button
+                    type="primary"
+                    onClick={() => completeTask(task.id)}
+                    disabled={task.completed}
+                  >
+                    Completar
+                  </Button>
+
+                  <Button
+                    danger
+                    onClick={() => deleteTask(task.id)}
+                  >
+                    Eliminar
+                  </Button>
+
+                </Space>
+
+              </Space>
+
+            </Card>
+
+          ))
+        }
+
+      </Space>
 
     </div>
 
-  ))
-}
-
-    </div>
   );
+
 }
 
 export default Tasks;
