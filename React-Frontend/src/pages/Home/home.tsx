@@ -1,4 +1,5 @@
 import './home.css';
+import Gallery from '../../Components/Gallery/Gallery';
 
 export function Home() {
   return (
@@ -15,6 +16,9 @@ export function Home() {
         <p className="home-subtitle">
           Bienvenido a la aplicación
         </p>
+        
+        <Gallery />
+
       </div>
     </main>
   );
