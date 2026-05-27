@@ -1,28 +1,36 @@
 import type { Task } from "../../types/Task";
-import "./TaskList.css";
+
+import TaskItem from "../TaskItem/TaskItem";
 
 interface TaskListProps {
   tasks: Task[];
+  completeTask: (id: number) => void;
+  deleteTask: (id: number) => void;
 }
 
-function TaskList({ tasks }: TaskListProps) {
+function TaskList({
+  tasks,
+  completeTask,
+  deleteTask,
+}: TaskListProps) {
 
   return (
+
     <div>
 
       {tasks.map((task) => (
 
-        <div key={task.id}>
-
-          <h3>{task.title}</h3>
-
-          <p>{task.priority}</p>
-
-        </div>
+        <TaskItem
+          key={task.id}
+          task={task}
+          completeTask={completeTask}
+          deleteTask={deleteTask}
+        />
 
       ))}
 
     </div>
+
   );
 }
 
