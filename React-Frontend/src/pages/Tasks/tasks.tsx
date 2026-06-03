@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 
-import axios from "axios";
+import {
+  getTasks as fetchTasks,
+  createTask,
+  completeTask as completeTaskService,
+  deleteTask as deleteTaskService,
+} from "../../services/Service";
 
 import type { Task } from "../../types/Task";
 
@@ -31,9 +36,9 @@ function Tasks() {
 
     try {
 
-      const response = await axios.get("http://localhost:3000/task");
+      const response = await fetchTasks();
 
-      setTasks(response.data);
+      setTasks(response);
 
     } catch (error) {
 
@@ -50,7 +55,7 @@ function Tasks() {
 
     try {
 
-      await axios.post("http://localhost:3000/task", {
+      await createTask({
         title,
         priority,
       });
@@ -69,12 +74,7 @@ function Tasks() {
 
     try {
 
-      await axios.patch(
-        `http://localhost:3000/task/${id}`,
-        {
-          completed: true,
-        }
-      );
+      await completeTaskService(id);
 
       getTasks();
 
@@ -90,9 +90,7 @@ function Tasks() {
 
     try {
 
-      await axios.delete(
-        `http://localhost:3000/task/${id}`
-      );
+      await deleteTaskService(id);
 
       getTasks();
 
